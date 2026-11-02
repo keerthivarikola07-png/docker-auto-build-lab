@@ -1,4 +1,3 @@
-
 name: Build and Push Docker Image
 
 on:
@@ -21,12 +20,14 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ vars.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: keerthivarikola07/docker-auto-build-lab:latest
+          tags: |
+            keerthivarikola07/docker-auto-build-lab:latest
+            keerthivarikola07/docker-auto-build-lab:${{ github.sha }}
